@@ -30,5 +30,19 @@ describe('Engine tests', () => {
             const result = engine.detect("https://www.google.com");
             expect(result.isPhishing).toBe(false);
         });
+
+        it('Should return valid probability when matching', () => {
+            const rule = createContainsRule({value: "google.com", weight: 1});
+            const engine = new Engine({include: [rule]})
+            const result = engine.detect("https://www.google.com");
+            expect(result.probability).toBe(1);
+        });
+
+        it('Should return valid probability when not matching', () => {
+            const rule = createContainsRule({value: "google.nl", weight: 1});
+            const engine = new Engine({include: [rule]})
+            const result = engine.detect("https://www.google.com");
+            expect(result.probability).toBe(0);
+        });
     });
 })
