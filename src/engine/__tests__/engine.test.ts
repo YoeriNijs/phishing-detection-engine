@@ -8,7 +8,7 @@ describe('Engine tests', () => {
         expect(new Engine({include: []})).toBeDefined();
     });
 
-    it('should run isPhishing false and probability 1 when no rules set', () => {
+    it('should run isPhishing false and isPhishingProbability 0 when no rules set', () => {
        const engine = new Engine({});
        expect(engine.detect("https://some_evil_domain.com")).toEqual({
            isPhishing: false,

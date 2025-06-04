@@ -1,5 +1,5 @@
-import {DetectionResult} from "./model/detection-result";
-import {PhishingRules} from "./model/phishing-rules";
+import {DetectionResult} from "../model/detection-result";
+import {PhishingRules} from "../model/phishing-rules";
 
 interface EngineResult {
     isPhishing: boolean;

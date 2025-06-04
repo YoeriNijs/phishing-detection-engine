@@ -4,7 +4,7 @@
   "description": "A modular phishing detection engine",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev src/engine.ts",
+    "start": "ts-node-dev src/engine/engine.ts",
     "test": "jest",
     "test:watch": "jest --watchAll",
     "prepare": "husky"

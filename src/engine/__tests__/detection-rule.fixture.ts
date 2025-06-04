@@ -1,4 +1,4 @@
-import {PhishingRule} from "../model/phishing-rule";
+import {PhishingRule} from "../../model/phishing-rule";
 
 export const createContainsRule = (rule: Partial<PhishingRule>): PhishingRule => {
     return Object.assign({
