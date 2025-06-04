@@ -16,49 +16,62 @@ describe('Engine tests', () => {
        })
     });
 
-    describe('# include', () => {
-        it('Should return isPhishing true when includes', () => {
-            const rule = createContainsRule({value: "google.com"});
-            const engine = new Engine({include: [rule]})
-            const result = engine.detect("https://www.google.com");
-            expect(result.isPhishing).toBe(true);
+    describe('# Contains', () => {
+        describe('# include', () => {
+            it('Should return isPhishing true when includes', () => {
+                const rule = createContainsRule({value: "google.com"});
+                const engine = new Engine({include: [rule]})
+                const result = engine.detect("https://www.google.com");
+                expect(result.isPhishing).toBe(true);
+            });
+
+            it('Should return isPhishing false when not includes', () => {
+                const rule = createContainsRule({value: "google.nl"});
+                const engine = new Engine({include: [rule]})
+                const result = engine.detect("https://www.google.com");
+                expect(result.isPhishing).toBe(false);
+            });
+
+            it('Should return valid probability when matching', () => {
+                const rule = createContainsRule({value: "google.com", weight: 1});
+                const engine = new Engine({include: [rule]})
+                const result = engine.detect("https://www.google.com");
+                expect(result.isPhishingProbability).toBe(1);
+            });
+
+            it('Should return valid probability when not matching', () => {
+                const rule = createContainsRule({value: "google.nl", weight: 1});
+                const engine = new Engine({include: [rule]})
+                const result = engine.detect("https://www.google.com");
+                expect(result.isPhishingProbability).toBe(0);
+            });
         });
 
-        it('Should return isPhishing false when not includes', () => {
-            const rule = createContainsRule({value: "google.nl"});
-            const engine = new Engine({include: [rule]})
-            const result = engine.detect("https://www.google.com");
-            expect(result.isPhishing).toBe(false);
+        describe('# exclude', () => {
+            it('Should return isPhishing false when the domain is excluded', () => {
+                const rule = createContainsRule({value: "google.com"});
+                const engine = new Engine({exclude: [rule]})
+                const result = engine.detect("https://www.google.com");
+                expect(result.isPhishing).toBe(false);
+            });
+
+            it('Should return valid probability when excluded', () => {
+                const rule = createContainsRule({value: "google.com", weight: 1});
+                const engine = new Engine({exclude: [rule]})
+                const result = engine.detect("https://www.google.com");
+                expect(result.isPhishingProbability).toBe(-1);
+            });
         });
 
-        it('Should return valid probability when matching', () => {
-            const rule = createContainsRule({value: "google.com", weight: 1});
-            const engine = new Engine({include: [rule]})
-            const result = engine.detect("https://www.google.com");
-            expect(result.isPhishingProbability).toBe(1);
-        });
-
-        it('Should return valid probability when not matching', () => {
-            const rule = createContainsRule({value: "google.nl", weight: 1});
-            const engine = new Engine({include: [rule]})
-            const result = engine.detect("https://www.google.com");
-            expect(result.isPhishingProbability).toBe(0);
-        });
-    });
-    
-    describe('# exclude', () => {
-        it('Should return isPhishing false when the domain is excluded', () => {
-            const rule = createContainsRule({value: "google.com"});
-            const engine = new Engine({exclude: [rule]})
-            const result = engine.detect("https://www.google.com");
-            expect(result.isPhishing).toBe(false);
-        });
-
-        it('Should return valid probability when excluded', () => {
-            const rule = createContainsRule({value: "google.com", weight: 1});
-            const engine = new Engine({exclude: [rule]})
-            const result = engine.detect("https://www.google.com");
-            expect(result.isPhishingProbability).toBe(-1);
+        describe('# include and exclude', () => {
+            it('Should return valid probability when includes and excludes', () => {
+                const engine = new Engine({
+                    include: [createContainsRule({ value: "google.com", weight: 1 })],
+                    exclude: [createContainsRule({ value: "google.com", weight: 1 })],
+                });
+                const result = engine.detect("https://www.google.com");
+                expect(result.isPhishingProbability).toBe(0);
+            })
         });
     });
 })
