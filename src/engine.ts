@@ -3,7 +3,7 @@ import {PhishingRules} from "./model/phishing-rules";
 
 interface EngineResult {
     isPhishing: boolean;
-    probability: number;
+    isPhishingProbability: number;
 }
 
 export class Engine {
@@ -15,7 +15,7 @@ export class Engine {
         if (!this._rules.include && !this._rules.exclude) {
             return {
                 isPhishing: false,
-                probability: 1
+                isPhishingProbability: 1
             };
         }
 
@@ -23,7 +23,7 @@ export class Engine {
         const engineResult = this.calculateResult([containsProbability])
         return {
             isPhishing: engineResult.isPhishing,
-            probability: engineResult.probability
+            isPhishingProbability: engineResult.isPhishingProbability
         }
     }
 
@@ -36,6 +36,7 @@ export class Engine {
         );
 
         if (this._rules.include) {
+            // The weight is going up when the include rule exists
             this._rules.include
                 .filter(r => r.phishingRuleType === 'contains')
                 .filter(r => url.indexOf(r.value.toLowerCase()) !== -1)
@@ -44,11 +45,12 @@ export class Engine {
         }
 
         if (this._rules.exclude) {
+            // The weight is going down when the exclude rule exists
             this._rules.exclude
                 .filter(r => r.phishingRuleType === 'contains')
-                .filter(r => url.indexOf(r.value.toLowerCase()) === -1)
+                .filter(r => url.indexOf(r.value.toLowerCase()) !== -1)
                 .map(r => r.weight)
-                .forEach(weight => totalWeight += weight);
+                .forEach(weight => totalWeight -= weight);
         }
 
         return totalWeight / nRules;
@@ -59,7 +61,7 @@ export class Engine {
         const probability = totalNumbers / numbers.length;
         return {
             isPhishing: probability > this._threshold,
-            probability: probability
+            isPhishingProbability: probability
         }
     }
 }
