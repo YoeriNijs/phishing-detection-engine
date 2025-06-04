@@ -15,7 +15,7 @@ export class Engine {
         if (!this._rules.include && !this._rules.exclude) {
             return {
                 isPhishing: false,
-                isPhishingProbability: 1
+                isPhishingProbability: 0
             };
         }
 

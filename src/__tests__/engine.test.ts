@@ -12,7 +12,7 @@ describe('Engine tests', () => {
        const engine = new Engine({});
        expect(engine.detect("https://some_evil_domain.com")).toEqual({
            isPhishing: false,
-           isPhishingProbability: 1,
+           isPhishingProbability: 0,
        })
     });
 
@@ -28,6 +28,13 @@ describe('Engine tests', () => {
             it('Should return isPhishing false when not includes', () => {
                 const rule = createContainsRule({value: "google.nl"});
                 const engine = new Engine({include: [rule]})
+                const result = engine.detect("https://www.google.com");
+                expect(result.isPhishing).toBe(false);
+            });
+
+            it('Should return isPhishing false when is below threshold', () => {
+                const rule = createContainsRule({value: "google.nl", weight: 0.4});
+                const engine = new Engine({include: [rule]}, 0.5)
                 const result = engine.detect("https://www.google.com");
                 expect(result.isPhishing).toBe(false);
             });
@@ -71,7 +78,7 @@ describe('Engine tests', () => {
                 });
                 const result = engine.detect("https://www.google.com");
                 expect(result.isPhishingProbability).toBe(0);
-            })
+            });
         });
     });
 })
