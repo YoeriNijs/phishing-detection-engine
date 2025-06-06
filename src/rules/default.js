@@ -1,6 +1,7 @@
-import { PhishingRules } from "../model/phishing-rules";
-
-export const DEFAULT_RULES: PhishingRules = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DEFAULT_RULES = void 0;
+exports.DEFAULT_RULES = {
   include: [
     {
       name: "bank_include_rule_1",

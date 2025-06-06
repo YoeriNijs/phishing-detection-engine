@@ -11,7 +11,7 @@ interface EngineResult {
 const NO_PHISHING_RESULT: DetectionResult = {
   isPhishing: false,
   phishingProbability: 0,
-}
+};
 
 export class Engine {
   constructor(
@@ -67,18 +67,19 @@ export class Engine {
         .forEach((weight) => (totalWeight -= weight));
     }
 
-    return totalWeight === 0
-        ? 0
-        : totalWeight / nRules;
+    return totalWeight === 0 ? 0 : totalWeight / nRules;
   }
 
   private calculateResult(numbers: number[]): EngineResult {
-    const filteredNumbers = numbers.filter(n => n !== 0);
+    const filteredNumbers = numbers.filter((n) => n !== 0);
     if (filteredNumbers.length === 0) {
       return NO_PHISHING_RESULT;
     }
 
-    const totalNumbers = filteredNumbers.reduce((acc, number) => acc + number, 0);
+    const totalNumbers = filteredNumbers.reduce(
+      (acc, number) => acc + number,
+      0,
+    );
     const probability = totalNumbers / filteredNumbers.length;
     return {
       isPhishing: probability > this._threshold,

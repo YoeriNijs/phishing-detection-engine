@@ -8,7 +8,8 @@
     "lint": "npx prettier . --write",
     "test": "jest",
     "test:watch": "jest --watchAll",
-    "prepare": "husky"
+    "prepare": "husky",
+    "build:firefox": "tsc src/browsers/firefox/firefox_plugin.ts"
   },
   "author": "Yoeri Nijs",
   "license": "MIT",
