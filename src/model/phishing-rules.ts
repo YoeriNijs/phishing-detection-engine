@@ -1,6 +1,6 @@
-import {PhishingRule} from "./phishing-rule";
+import { PhishingRule } from "./phishing-rule";
 
 export interface PhishingRules {
-    include?: PhishingRule[],
-    exclude?: PhishingRule[]
+  include?: PhishingRule[];
+  exclude?: PhishingRule[];
 }

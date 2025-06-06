@@ -1,11 +1,9 @@
 module.exports = {
-    preset: 'ts-jest',
-    testEnvironment: 'node',
-    moduleFileExtensions: ['ts', 'js', 'json', 'node'],
-    transform: {
-        '^.+\\.ts$': 'ts-jest',
-    },
-    testPathIgnorePatterns: [
-        ".*\\.fixture\\.ts$",
-    ],
+  preset: "ts-jest",
+  testEnvironment: "node",
+  moduleFileExtensions: ["ts", "js", "json", "node"],
+  transform: {
+    "^.+\\.ts$": "ts-jest",
+  },
+  testPathIgnorePatterns: [".*\\.fixture\\.ts$"],
 };
