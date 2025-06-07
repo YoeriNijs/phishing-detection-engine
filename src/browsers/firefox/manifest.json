@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+  "name": "Block Google Requests",
+  "version": "1.0",
+  "description": "Blocks requests containing 'google.com'.",
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "<all_urls>"
+  ],
+  "background": {
+    "scripts": ["plugin.js"]
+  },
+  "icons": {
+    "48": "icon.png"
+  }
+}
